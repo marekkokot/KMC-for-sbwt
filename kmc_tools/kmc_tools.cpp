@@ -272,7 +272,7 @@ template<unsigned SIZE> class CTools
 		
 		filtering_params.fastq_buffer_size = 1 << 25; 
 
-		filtering_params.mem_part_pmm_fastq_reader = filtering_params.fastq_buffer_size + CFastqReader::OVERHEAD_SIZE;
+		filtering_params.mem_part_pmm_fastq_reader = filtering_params.fastq_buffer_size + CFastqReaderKMCTools::OVERHEAD_SIZE;
 		filtering_params.mem_tot_pmm_fastq_reader = filtering_params.mem_part_pmm_fastq_reader * (filtering_params.n_readers + 48);
 
 		filtering_params.mem_part_pmm_fastq_filter = filtering_params.mem_part_pmm_fastq_reader;
@@ -291,7 +291,7 @@ template<unsigned SIZE> class CTools
 		vector<thread> readers_ths;
 		vector<thread> filters_ths;
 		vector<unique_ptr<CWFastqFilter>> filters;
-		vector<unique_ptr<CWFastqReader>> readers;
+		vector<unique_ptr<CWFastqReaderKMCTools>> readers;
 
 		CKffAndKMCRandomAccess kmc_api;
 		if (config.headers.front().GetType() == KmerFileType::KFF1)
@@ -318,7 +318,7 @@ template<unsigned SIZE> class CTools
 
 		for (uint32 i = 0; i < filtering_params.n_readers; ++i)
 		{
-			readers.push_back(make_unique<CWFastqReader>(filtering_params, filtering_queues));
+			readers.push_back(make_unique<CWFastqReaderKMCTools>(filtering_params, filtering_queues));
 			readers_ths.emplace_back(ref(*readers.back()));
 		}
 
