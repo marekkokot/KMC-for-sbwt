@@ -61,7 +61,7 @@ ifeq ($(UNAME_S),Darwin)
 	$(KMC_TOOLS_DIR)/libs/libz.1.2.5.dylib \
 	$(KMC_TOOLS_DIR)/libs/libbz2.1.0.5.dylib
 
-	LIB_KMC_CORE = $(OUT_BIN_DIR)/libkmc_core.mac.a
+	LIB_KMC_CORE = $(OUT_BIN_DIR)/libkmc_core.a
 else
 	RADULS_OBJS = \
 	$(KMC_MAIN_DIR)/raduls_sse2.o \
