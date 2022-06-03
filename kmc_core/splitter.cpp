@@ -452,6 +452,7 @@ void CSplitter::CalcStats(uchar* _part, uint64 _part_size, ReadType read_type, u
 
 	while (GetSeq(seq, seq_size, read_type))
 	{
+		std::reverse(seq, seq+seq_size); // Jarno N. Alanko addition for SBWT on 3.6.2022
 		if (homopolymer_compressed)
 			HomopolymerCompressSeq(seq, seq_size);
 		i = 0;
@@ -542,8 +543,10 @@ bool CSplitter::ProcessReadsOnlyEstimate(uchar* _part, uint64 _part_size, ReadTy
 	uint32 seq_size;
 	pmm_reads->reserve(seq);
 
-	while (GetSeq(seq, seq_size, read_type))
+	while (GetSeq(seq, seq_size, read_type)){
+		std::reverse(seq, seq+seq_size); // Jarno N. Alanko addition for SBWT on 3.6.2022
 		ntHashEstimator->Process(seq, seq_size);
+	}
 
 	pmm_reads->free(seq);
 
@@ -571,6 +574,7 @@ bool CSplitter::ProcessReads(uchar *_part, uint64 _part_size, ReadType read_type
 
 	while (GetSeq(seq, seq_size, read_type))
 	{		
+		std::reverse(seq, seq+seq_size); // Jarno N. Alanko addition for SBWT on 3.6.2022
 		if (ntHashEstimator)
 			ntHashEstimator->Process(seq, seq_size);
 
@@ -697,6 +701,7 @@ bool CSplitter::ProcessReadsSmallK(uchar *_part, uint64 _part_size, ReadType rea
 	if (both_strands)
 		while (GetSeq(seq, seq_size, read_type))
 		{
+			std::reverse(seq, seq+seq_size); // Jarno N. Alanko addition for SBWT on 3.6.2022
 			if (homopolymer_compressed)
 				HomopolymerCompressSeq(seq, seq_size);
 			//if (file_type != multiline_fasta)
@@ -752,6 +757,7 @@ bool CSplitter::ProcessReadsSmallK(uchar *_part, uint64 _part_size, ReadType rea
 	else
 		while (GetSeq(seq, seq_size, read_type))
 		{
+			std::reverse(seq, seq+seq_size); // Jarno N. Alanko addition for SBWT on 3.6.2022
 			if (homopolymer_compressed)
 				HomopolymerCompressSeq(seq, seq_size);
 			//if (file_type != multiline_fasta)
