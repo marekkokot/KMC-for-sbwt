@@ -28,7 +28,7 @@ else()
   set(RADULS_OBJS
     "${KMC_MAIN_DIR}/raduls_sse2.cpp;${KMC_MAIN_DIR}/raduls_sse41.cpp;${KMC_MAIN_DIR}/raduls_avx2.cpp;${KMC_MAIN_DIR}/raduls_avx.cpp")
   set(KMC_TOOLS_LIBS
-    "${KMC_TOOLS_DIR}/libs/libz.1.2.5.a;${KMC_TOOLS_DIR}/libs/libbz2.1.0.5.a")
+    "${KMC_TOOLS_DIR}/libs/libz.a;${KMC_TOOLS_DIR}/libs/libbz2.a")
 endif()
 
 set(KMC_CLI_OBJS "${KMC_CLI_DIR}/kmc.cpp")
