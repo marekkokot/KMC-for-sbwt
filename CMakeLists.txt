@@ -52,7 +52,7 @@ add_library(KMC_CORE_OBJS OBJECT "${KMC_MAIN_DIR}/mem_disk_file.cpp;${KMC_MAIN_D
 add_library(KMC_TOOLS_OBJS OBJECT "${KMC_TOOLS_DIR}/kmer_file_header.cpp;${KMC_TOOLS_DIR}/kmc_tools.cpp;${KMC_TOOLS_DIR}/nc_utils.cpp;${KMC_TOOLS_DIR}/parameters_parser.cpp;${KMC_TOOLS_DIR}/parser.cpp;${KMC_TOOLS_DIR}/tokenizer.cpp;${KMC_TOOLS_DIR}/fastq_filter.cpp;${KMC_TOOLS_DIR}/fastq_reader.cpp;${KMC_TOOLS_DIR}/fastq_writer.cpp;${KMC_TOOLS_DIR}/percent_progress.cpp;${KMC_TOOLS_DIR}/kff_info_reader.cpp;${KMC_API_DIR}/mmer.cpp;${KMC_API_DIR}/kmc_file.cpp;${KMC_API_DIR}/kmer_api.cpp")
 
 add_library(kmc_core STATIC $<TARGET_OBJECTS:KMC_CORE_OBJS> $<TARGET_OBJECTS:KMC_API_OBJS> $<TARGET_OBJECTS:KFF_OBJS> $<TARGET_OBJECTS:RADULS_SSE2_OBJS> $<TARGET_OBJECTS:RADULS_SSE41_OBJS> $<TARGET_OBJECTS:RADULS_AVX_OBJS> $<TARGET_OBJECTS:RADULS_AVX2_OBJS>)
-# target_link_libraries(kmc_core PUBLIC RADULS_SSE2_OBJS RADULS_SSE41_OBJS RADULS_AVX_OBJS RADULS_AVX2_OBJS)
+target_link_libraries(kmc_core PRIVATE $<TARGET_OBJECTS:RADULS_SSE2_OBJS> $<TARGET_OBJECTS:RADULS_SSE41_OBJS> $<TARGET_OBJECTS:RADULS_AVX_OBJS> $<TARGET_OBJECTS:RADULS_AVX2_OBJS>)
 
 add_library(kmc_tools STATIC $<TARGET_OBJECTS:KMC_TOOLS_OBJS> $<TARGET_OBJECTS:KMC_API_OBJS> $<TARGET_OBJECTS:KFF_OBJS> ${KMC_TOOLS_LIBS})
 target_link_libraries(kmc_tools PRIVATE ${KMC_TOOLS_LIBS})
