@@ -28,7 +28,7 @@ if(APPLE)
   set(KMC_TOOLS_LIBS
     "${KMC_TOOLS_DIR}/libs/libz.1.2.5.dylib;${KMC_TOOLS_DIR}/libs/libbz2.1.0.5.dylib")
 else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14 -msse2 -msse4 -mavx -mavx2")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14")
   set(LINK_OPTIONS "-lm -static -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14")
   set(STATIC_LIBRARY_OPTIONS "-lm -static -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14")
   add_library(RADULS_SSE2_OBJS OBJECT "${KMC_MAIN_DIR}/raduls_sse2.cpp")
