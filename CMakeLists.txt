@@ -102,7 +102,7 @@ add_library(kmc_tools STATIC
   $<TARGET_OBJECTS:KMC_API_OBJS>
   $<TARGET_OBJECTS:KFF_OBJS>)
 if(APPLE)
-  target_compile_options(kmc_toolsPRIVATE -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
+  target_compile_options(kmc_tools PRIVATE -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
   target_link_libraries(kmc_tools PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/libz.dylib
     ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/libbz2.dylib)
