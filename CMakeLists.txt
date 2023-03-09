@@ -3,6 +3,15 @@ project(KMC VERSION 1.0
   DESCRIPTION "SBWT fork of KMC"
   LANGUAGES CXX)
 
+if(NOT ZLIB)
+  find_library(ZLIB NAMES z PATHS ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/ REQUIRED)
+endif()
+
+if(NOT BZIP2)
+  find_library(BZIP2 NAMES bz2 PATHS ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/ REQUIRED)
+endif()
+
+
 set(KMC_MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core)
 set(KMC_CLI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kmc_CLI)
 set(KMC_API_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kmc_api)
@@ -86,14 +95,14 @@ add_library(kmc_core STATIC
 if(APPLE)
   target_compile_options(kmc_core PRIVATE -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
   target_link_libraries(kmc_core PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core/libs/libz.dylib
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core/libs/libbz2.dylib)
+    ${ZLIB}
+    ${BZIP2})
   target_link_options(kmc_core PRIVATE -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14)
 else()
   target_compile_options(kmc_core PRIVATE -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
   target_link_libraries(kmc_core PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core/libs/libz.a
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core/libs/libbz2.a)
+    ${ZLIB}
+    ${BZIP2})
   target_link_options(kmc_core PRIVATE -lm -static -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 endif()
 
@@ -104,14 +113,14 @@ add_library(kmc_tools STATIC
 if(APPLE)
   target_compile_options(kmc_tools PRIVATE -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
   target_link_libraries(kmc_tools PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/libz.dylib
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/libbz2.dylib)
+    ${ZLIB}
+    ${BZIP2})
   target_link_options(kmc_tools PRIVATE -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14)
 else()
   target_compile_options(kmc_tools PRIVATE -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
   target_link_libraries(kmc_tools PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/libz.a
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/libbz2.a)
+    ${ZLIB}
+    ${BZIP2})
   target_link_options(kmc_tools PRIVATE -lm -static -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 endif()
 
@@ -119,15 +128,15 @@ add_executable(kmc $<TARGET_OBJECTS:KMC_CLI_OBJS>)
 if(APPLE)
   target_compile_options(kmc PRIVATE -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
   target_link_libraries(kmc PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core/libs/libz.dylib
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core/libs/libbz2.dylib
+    ${ZLIB}
+    ${BZIP2}
     kmc_core)
   target_link_options(kmc PRIVATE -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14)
 else()
   target_compile_options(kmc PRIVATE -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
   target_link_libraries(kmc PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core/libs/libz.a
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core/libs/libbz2.a
+    ${ZLIB}
+    ${BZIP2}
     kmc_core)
   target_link_options(kmc PRIVATE -lm -static -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 endif()
