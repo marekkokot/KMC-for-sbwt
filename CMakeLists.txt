@@ -123,20 +123,3 @@ else()
     ${BZIP2})
   target_link_options(kmc_tools PRIVATE -lm -static -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 endif()
-
-add_executable(kmc $<TARGET_OBJECTS:KMC_CLI_OBJS>)
-if(APPLE)
-  target_compile_options(kmc PRIVATE -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
-  target_link_libraries(kmc PRIVATE
-    ${ZLIB}
-    ${BZIP2}
-    kmc_core)
-  target_link_options(kmc PRIVATE -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14)
-else()
-  target_compile_options(kmc PRIVATE -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
-  target_link_libraries(kmc PRIVATE
-    ${ZLIB}
-    ${BZIP2}
-    kmc_core)
-  target_link_options(kmc PRIVATE -lm -static -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
-endif()
