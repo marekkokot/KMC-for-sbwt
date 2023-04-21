@@ -112,6 +112,7 @@ else
 	$(KMC_TOOLS_DIR)/libs/libbz2.1.0.5.dylib
 
 	LIB_KMC_CORE = $(OUT_BIN_DIR)/libkmc_core.a
+endif
 else
 	RADULS_OBJS = \
 	$(KMC_MAIN_DIR)/raduls_sse2.o \
