@@ -18,7 +18,6 @@ jobs:
       run: |
         chmod +x $SCRIPT
         /usr/bin/time -v $SCRIPT $DATA_DIR
-
   prepare-small-fastq-tests:
     name: Prepare small fastq tests
     runs-on: [self-hosted, kmc]
@@ -35,7 +34,6 @@ jobs:
       run: |
         chmod +x $SCRIPT
         /usr/bin/time -v $SCRIPT $DATA_DIR $TRIVIAL_COUNTER $FILE_TO_GET_PART_FROM 400000
-
   make-tests:
     name: Make tests
     runs-on: [self-hosted, kmc]
@@ -46,10 +44,11 @@ jobs:
       KMC_TOOLS: ./bin/kmc_tools
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: recursive
     - name: make (default)
       run: |
         /usr/bin/time -v make -j32
-
   small-fastq-tests:
     name: Small fastq tests
     runs-on: [self-hosted, kmc]
@@ -66,11 +65,3 @@ jobs:
       run: |
         chmod +x $SCRIPT
         /usr/bin/time -v $SCRIPT $DATA_DIR $KMC_EXE $KMC_TOOLS $KMC_DUMP_EXE
-   
-
-
-
-
-
-
-  

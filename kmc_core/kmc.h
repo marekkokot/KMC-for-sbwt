@@ -4,8 +4,8 @@
   
   Authors: Sebastian Deorowicz, Agnieszka Debudaj-Grabysz, Marek Kokot
   
-  Version: 3.2.1
-  Date   : 2022-01-04
+  Version: 3.2.2
+  Date   : 2023-03-10
 */
 
 #ifndef _KMC_H
@@ -236,15 +236,13 @@ template <unsigned SIZE> void CKMC<SIZE>::SetThreads1Stage(const KMC::Stage1Para
 	if (!stage1Params.GetNReaders() || !stage1Params.GetNSplitters())
 	{
 		int cores = Params.n_threads;
-		bool gz_bz2 = false;
+		bool is_gz = false;
 		vector<uint64> file_sizes;
 
 		for (auto& p : Params.input_file_names)
 		{
 			if (p.size() > 3 && string(p.end() - 3, p.end()) == ".gz")
-				gz_bz2 = true;
-			else if (p.size() > 4 && string(p.end() - 4, p.end()) == ".bz2")
-				gz_bz2 = true;
+				is_gz = true;
 
 			uint64 fsize{};
 			if (Params.file_type != InputType::KMC)
@@ -275,7 +273,7 @@ template <unsigned SIZE> void CKMC<SIZE>::SetThreads1Stage(const KMC::Stage1Para
 			}
 			file_sizes.push_back(fsize);
 		}
-		if (gz_bz2)
+		if (is_gz)
 		{
 			sort(file_sizes.begin(), file_sizes.end(), greater<uint64>());
 			uint64 file_size_threshold = (uint64)(file_sizes.front() * 0.05);
@@ -1521,9 +1519,18 @@ template <unsigned SIZE> KMC::Stage2Results CKMC<SIZE>::ProcessStage2_impl()
 
 	SortFunction<CKmer<SIZE>> sort_func;
 #ifdef __APPLE__
+#ifdef __aarch64__
+	sort_func = RadulsSort::RadixSortMSD_NEON<CKmer<SIZE>>;
+	CSmallSort<SIZE>::Adjust(384);
+#else
 	sort_func = RadixSort::RadixSortMSD<CKmer<SIZE>, SIZE>;
 	CSmallSort<SIZE>::Adjust(384);
+#endif
 #else	
+#ifdef __aarch64__
+	sort_func = RadulsSort::RadixSortMSD_NEON<CKmer<SIZE>>;
+	CSmallSort<SIZE>::Adjust(384);
+#else
 	auto proc_name = CCpuInfo::GetBrand();
 	bool is_intel = CCpuInfo::GetVendor() == "GenuineIntel";
 	bool at_least_avx = CCpuInfo::AVX_Enabled();
@@ -1550,6 +1557,7 @@ template <unsigned SIZE> KMC::Stage2Results CKMC<SIZE>::ProcessStage2_impl()
 		sort_func = RadixSort::RadixSortMSD<CKmer<SIZE>, SIZE>;
 		CSmallSort<SIZE>::Adjust(384);
 	}
+#endif
 #endif
 
 	Queues.kq = std::make_unique<CKmerQueue>(Params.n_bins, Params.n_sorters);

@@ -2,7 +2,8 @@ KMC
 =
 [![GitHub downloads](https://img.shields.io/github/downloads/refresh-bio/kmc/total.svg?style=flag&label=GitHub%20downloads)](https://github.com/refresh-bio/KMC/releases)
 [![Bioconda downloads](https://img.shields.io/conda/dn/bioconda/kmc.svg?style=flag&label=Bioconda%20downloads)](https://anaconda.org/bioconda/kmc)
-[![GitHub Actions CI](../../actions/workflows/main.yml/badge.svg)](../../actions/workflows/main.yml)
+[![Biocontainer downloads](https://img.shields.io/endpoint?url=https%3A%2F%2Fmmseqs.com%2Fbiocontainer.php%3Fcontainer%3Dkmc)](https://biocontainers.pro/tools/kmc)
+[![GitHub Actions CI](../../actions/workflows/main.yml/badge.svg)](../../actions/workflows/main.yml) [![Join the chat at https://gitter.im/refresh-bio/KMC](https://badges.gitter.im/refresh-bio/KMC.svg)](https://gitter.im/refresh-bio/KMC?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 KMC is a disk-based program for counting k-mers from (possibly gzipped) FASTQ/FASTA files.
 KMC is one of many projects developed by [REFRESH Bioinformatics Group](http://sun.aei.polsl.pl/REFRESH/).
@@ -32,11 +33,16 @@ Having the k-mers counted it is possible to dump KMC binary database to textual 
 ```
 
 Installation details
+##### Compile from sources
+```
+git clone --recurse-submodules https://github.com/refresh-bio/kmc.git
+cd kmc
+make -j32
+```
 =
 The following libraries come with KMC in a binary (64-bit compiled for x86 platform) form.
 If your system needs other binary formats, you should put the following libraries in kmc_core/libs:
-* libbzip2 - for support for bzip2-compressed input FASTQ/FASTA files (http://www.bzip.org/)
-* zlib - for support for gzip-compressed input FASTQ/FASTA files (http://www.zlib.net/)
+* zlib - for support for gzip-compressed input FASTQ/FASTA files
 
 The following libraries come with KMC in a source coude form.
  * pybind11 - used to create python wrapper of KMC API (https://github.com/pybind/pybind11)
@@ -46,7 +52,7 @@ If needed, you can also redefine maximal length of k-mer, which is 256 in the cu
 Note: KMC is highly optimized and spends only as many bytes for k-mer (rounded up to 8) as
 necessary, so using large values of MAX_K does not affect the KMC performance for short k-mers.
 
-Some parts of KMC use C++14 features, so you need a compatible C++ compiler, e.g., gcc 4.9+ or clang 3.4+
+Some parts of KMC use C++17 features, so you need a compatible C++ compiler
 
 After that, you can run make to compile kmc and kmc_dump applications.
 
@@ -121,8 +127,6 @@ After compilation you will obtain two binaries:
 License
 =
 * KMC software distributed under GNU GPL 3 licence.
-
-* libbzip2 is open-source (BSD-style license)
 
 * gzip is free, open-source
 

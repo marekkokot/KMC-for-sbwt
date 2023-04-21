@@ -4,8 +4,8 @@
   
   Authors: Sebastian Deorowicz, Agnieszka Debudaj-Grabysz, Marek Kokot
   
-  Version: 3.2.1
-  Date   : 2022-01-04
+  Version: 3.2.2
+  Date   : 2023-03-10
 */
 
 #ifndef _CPU_INFO_
@@ -26,6 +26,8 @@ public:
 	static bool SSE42_Enabled();
 	static bool AVX_Enabled();
 	static bool AVX2_Enabled();
+	
+	static bool NEON_Enabled();
 
 };
 

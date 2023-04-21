@@ -8,9 +8,8 @@
   Date   : 2023-03-10
 */
 
-#include "rev_byte.h"
-
-uchar CRev_byte::lut[256];
-CRev_byte::_si CRev_byte::_init;
+#if defined(__aarch64__)
+#include "raduls_impl.h"
+#endif
 
 // ***** EOF
