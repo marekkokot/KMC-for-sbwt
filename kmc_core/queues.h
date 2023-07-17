@@ -4,8 +4,8 @@
   
   Authors: Sebastian Deorowicz, Agnieszka Debudaj-Grabysz, Marek Kokot
   
-  Version: 3.2.1
-  Date   : 2022-01-04
+  Version: 3.2.2
+  Date   : 2023-03-10
 */
 
 #ifndef _QUEUES_H
@@ -31,7 +31,7 @@ using namespace std;
 //************************************************************************************************************
 
 enum class FilePart { Begin, Middle, End };
-enum class CompressionType { plain, gzip, bzip2 };
+enum class CompressionType { plain, gzip};
 
 
 // Reader will clasify reads as normal or long. Distinction is not strict, it depends on current configuration (mem limit and no. of threads). In case of fastq reader will assure, that

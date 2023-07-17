@@ -4,8 +4,8 @@
   
   Authors: Marek Kokot
   
-  Version: 3.2.1
-  Date   : 2022-01-04
+  Version: 3.2.2
+  Date   : 2023-03-10
 */
 
 #ifndef _FASTQ_READER_H
@@ -17,9 +17,7 @@
 #include <stdio.h>
 #include <iostream>
 
-#include "libs/zlib.h"
-#include "libs/bzlib.h"
-
+#include "../3rd_party/cloudflare/zlib.h"
 
 using namespace std;
 
@@ -27,8 +25,8 @@ using namespace std;
 //************************************************************************************************************
 // FASTA/FASTQ reader class
 //************************************************************************************************************
-class CFastqReaderKMCTools { // Jarno Alanko 12.5.2022: Appended KMCTools to name to avoid name collision with CFastqReader in KMC core
-	typedef enum {m_plain, m_gzip, m_bzip2} t_mode;
+class CFastqReaderKMCTools {
+	typedef enum {m_plain, m_gzip} t_mode;
 
 	CMemoryPool *pmm_fastq;
 
@@ -39,7 +37,6 @@ class CFastqReaderKMCTools { // Jarno Alanko 12.5.2022: Appended KMCTools to nam
 
 	FILE *in;
 	gzFile_s *in_gzip;
-	BZFILE *in_bzip2;
 	int bzerror;
 
 	uint64 part_size;
@@ -48,18 +45,15 @@ class CFastqReaderKMCTools { // Jarno Alanko 12.5.2022: Appended KMCTools to nam
 	uint64 part_filled;
 	
 	uint32 gzip_buffer_size;
-	uint32 bzip2_buffer_size;
-	
 
 	bool SkipNextEOL(uchar *part, int64 &pos, int64 max_pos);
-
 	void GetFullLineFromEnd(int64& line_sart, int64& line_end, uchar* buff, int64& pos);
-	
 	
 	bool IsEof();
 
 public:
-	CFastqReaderKMCTools(CMemoryPool *_pmm_fastq, CFilteringParams::file_type _file_type, uint32 _gzip_buffer_size, uint32 _bzip2_buffer_size, int _kmer_len);
+
+	CFastqReaderKMCTools(CMemoryPool *_pmm_fastq, CFilteringParams::file_type _file_type, uint32 _gzip_buffer_size, int _kmer_len);
 	~CFastqReaderKMCTools();
 
 	static uint64 OVERHEAD_SIZE;
@@ -84,7 +78,6 @@ class CWFastqReaderKMCTools { // Jarno Alanko 12.5.2022: Appended KMCTools to na
 	CPartQueue *part_queue;
 	CFilteringParams::file_type file_type;
 	uint32 gzip_buffer_size;
-	uint32 bzip2_buffer_size;
 	int kmer_len;
 
 public:

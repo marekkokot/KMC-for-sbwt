@@ -1,6 +1,8 @@
 all: kmc kmc_dump kmc_tools py_kmc_api
 
 UNAME_S := $(shell uname -s)
+UNAME_M := $(shell uname -m)
+UNAME_P := $(shell uname -p)
 
 KMC_MAIN_DIR = kmc_core
 KMC_CLI_DIR = kmc_CLI
@@ -14,19 +16,63 @@ OUT_INCLUDE_DIR = include
 
 ifeq ($(UNAME_S),Darwin)
 	CC = g++
+	
+D_OS =
+D_ARCH = 
 
-	CFLAGS	= -Wall -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14
-	CLINK	= -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14
+ifeq ($(UNAME_S),Darwin)
+	D_OS=MACOS
+	ifeq ($(UNAME_M),arm64)
+		D_ARCH=ARM64
+	else
+		D_ARCH=X64
+	endif
+else
+	D_OS=LINUX
+	D_ARCH=X64
+	ifeq ($(UNAME_M),arm64)
+		D_ARCH=ARM64
+	endif
+	ifeq ($(UNAME_M),aarch64)
+		D_ARCH=ARM64
+	endif
+endif
 
-	PY_KMC_API_CFLAGS = -Wl,-undefined,dynamic_lookup -fPIC -Wall -shared -std=c++14 -O3
+CPU_FLAGS =
+STATIC_CFLAGS = 
+STATIC_LFLAGS = 
+PY_FLAGS =
+
+ifeq ($(D_OS),MACOS)
+	CC = g++-11
+
+	ifeq ($(D_ARCH),ARM64)
+		CPU_FLAGS = -march=armv8.4-a
+	else
+		CPU_FLAGS = -m64
+	endif
+	STATIC_CFLAGS = -static-libgcc -static-libstdc++ -pthread
+	STATIC_LFLAGS = -static-libgcc -static-libstdc++ -pthread	
+	PY_FLAGS = -Wl,-undefined,dynamic_lookup -fPIC 
 else
 	CC	= g++
 
-	CFLAGS	= -Wall -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14
-	CLINK	= -lm -static -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14
-
-	PY_KMC_API_CFLAGS = -fPIC -Wall -shared -std=c++14 -O3
+	ifeq ($(D_ARCH),ARM64)
+		CPU_FLAGS = -march=armv8-a
+		STATIC_CFLAGS =
+		STATIC_LFLAGS = -static-libgcc -static-libstdc++ -pthread	
+	else
+		CPU_FLAGS = -m64
+		STATIC_CFLAGS = -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive
+		STATIC_LFLAGS = -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive
+	endif
+	PY_FLAGS = -fPIC
 endif
+
+
+CFLAGS	= -Wall -O3 -fsigned-char $(CPU_FLAGS) $(STATIC_CFLAGS) -std=c++14
+CLINK	= -lm $(STATIC_LFLAGS) -O3 -std=c++14
+PY_KMC_API_CFLAGS = $(PY_FLAGS) -Wall -shared -std=c++14 -O3
 
 KMC_CLI_OBJS = \
 $(KMC_CLI_DIR)/kmc.o
@@ -51,6 +97,10 @@ $(KMC_MAIN_DIR)/kb_collector.o \
 $(KMC_MAIN_DIR)/kmc_runner.o
 
 ifeq ($(UNAME_S),Darwin)
+ifeq ($(D_ARCH),ARM64)
+	RADULS_OBJS = \
+	$(KMC_MAIN_DIR)/raduls_neon.o
+else
 	RADULS_OBJS =
 
 	KMC_LIBS = \
@@ -62,23 +112,18 @@ ifeq ($(UNAME_S),Darwin)
 	$(KMC_TOOLS_DIR)/libs/libbz2.1.0.5.dylib
 
 	LIB_KMC_CORE = $(OUT_BIN_DIR)/libkmc_core.a
+endif
 else
 	RADULS_OBJS = \
 	$(KMC_MAIN_DIR)/raduls_sse2.o \
 	$(KMC_MAIN_DIR)/raduls_sse41.o \
 	$(KMC_MAIN_DIR)/raduls_avx2.o \
 	$(KMC_MAIN_DIR)/raduls_avx.o
-
-	KMC_LIBS = \
-	$(KMC_MAIN_DIR)/libs/libz.a \
-	$(KMC_MAIN_DIR)/libs/libbz2.a
-
-	KMC_TOOLS_LIBS = \
-	$(KMC_TOOLS_DIR)/libs/libz.a \
-	$(KMC_TOOLS_DIR)/libs/libbz2.a
-
-	LIB_KMC_CORE = $(OUT_BIN_DIR)/libkmc_core.a
 endif
+endif
+
+LIB_ZLIB=3rd_party/cloudflare/libz.a
+LIB_KMC_CORE = $(OUT_BIN_DIR)/libkmc_core.a
 
 
 KMC_DUMP_OBJS = \
@@ -106,9 +151,11 @@ $(KMC_TOOLS_DIR)/fastq_writer.o \
 $(KMC_TOOLS_DIR)/percent_progress.o \
 $(KMC_TOOLS_DIR)/kff_info_reader.o
 
+$(LIB_ZLIB):
+	cd 3rd_party/cloudflare; ./configure; make libz.a
 
 $(KMC_CLI_OBJS) $(KMC_CORE_OBJS) $(KMC_DUMP_OBJS) $(KMC_API_OBJS) $(KFF_OBJS) $(KMC_TOOLS_OBJS): %.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I 3rd_party/cloudflare -c $< -o $@
 
 $(KMC_MAIN_DIR)/raduls_sse2.o: $(KMC_MAIN_DIR)/raduls_sse2.cpp
 	$(CC) $(CFLAGS) -msse2 -c $< -o $@
@@ -119,26 +166,30 @@ $(KMC_MAIN_DIR)/raduls_avx.o: $(KMC_MAIN_DIR)/raduls_avx.cpp
 $(KMC_MAIN_DIR)/raduls_avx2.o: $(KMC_MAIN_DIR)/raduls_avx2.cpp
 	$(CC) $(CFLAGS) -mavx2 -c $< -o $@
 
+$(KMC_MAIN_DIR)/raduls_neon.o: $(KMC_MAIN_DIR)/raduls_neon.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
+
+
 $(LIB_KMC_CORE): $(KMC_CORE_OBJS) $(RADULS_OBJS) $(KMC_API_OBJS) $(KFF_OBJS)
 	-mkdir -p $(OUT_INCLUDE_DIR)
 	cp $(KMC_MAIN_DIR)/kmc_runner.h $(OUT_INCLUDE_DIR)/kmc_runner.h
 	-mkdir -p $(OUT_BIN_DIR)
 	ar rcs $@ $^
 
-kmc: $(KMC_CLI_OBJS) $(LIB_KMC_CORE)
+kmc: $(KMC_CLI_OBJS) $(LIB_KMC_CORE) $(LIB_ZLIB)
 	-mkdir -p $(OUT_BIN_DIR)
-	$(CC) $(CLINK) -o $(OUT_BIN_DIR)/$@ $^ $(KMC_LIBS)
+	$(CC) $(CLINK) -o $(OUT_BIN_DIR)/$@ $^ $(LIB_ZLIB)
 
 kmc_dump: $(KMC_DUMP_OBJS) $(KMC_API_OBJS)
 	-mkdir -p $(OUT_BIN_DIR)
 	$(CC) $(CLINK) -o $(OUT_BIN_DIR)/$@ $^
 
-kmc_tools: $(KMC_TOOLS_OBJS) $(KMC_API_OBJS) $(KFF_OBJS)
+kmc_tools: $(KMC_TOOLS_OBJS) $(KMC_API_OBJS) $(KFF_OBJS) $(LIB_ZLIB)
 	-mkdir -p $(OUT_BIN_DIR)
-	$(CC) $(CLINK) -o $(OUT_BIN_DIR)/$@ $^ $(KMC_TOOLS_LIBS)
+	$(CC) $(CLINK) -I 3rd_party/cloudflare -o $(OUT_BIN_DIR)/$@ $^ $(LIB_ZLIB)
 
 $(PY_KMC_API_DIR)/%.o: $(KMC_API_DIR)/%.cpp
-	$(CC) -c -fPIC -Wall -O3 -m64 -std=c++14 $^ -o $@
+	$(CC) -c -fPIC -Wall -O3 $(CPU_FLAGS) -std=c++14 $^ -o $@
 
 py_kmc_api: $(PY_KMC_API_OBJS) $(PY_KMC_API_OBJS)
 	-mkdir -p $(OUT_BIN_DIR)
@@ -157,3 +208,4 @@ clean:
 	-rm -f $(PY_KMC_API_DIR)/*.so
 	-rm -rf $(OUT_BIN_DIR)
 	-rm -rf $(OUT_INCLUDE_DIR)
+	cd 3rd_party/cloudflare; make clean;

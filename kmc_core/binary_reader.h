@@ -4,8 +4,8 @@ The homepage of the KMC project is http://sun.aei.polsl.pl/kmc
 
 Authors: Sebastian Deorowicz, Agnieszka Debudaj-Grabysz, Marek Kokot
 
-Version: 3.2.1
-Date   : 2022-01-04
+Version: 3.2.2
+Date   : 2023-03-10
 */
 
 #ifndef _BINARY_READER_H
@@ -56,8 +56,6 @@ class CBinaryFilesReader
 	{
 		if (name.size() > 3 && string(name.end() - 3, name.end()) == ".gz")
 			return CompressionType::gzip;
-		else if (name.size() > 4 && string(name.end() - 4, name.end()) == ".bz2")
-			return CompressionType::bzip2;
 		else
 			return CompressionType::plain;
 	}
@@ -385,9 +383,6 @@ public:
 					break;
 				case CompressionType::gzip:
 					predicted_size += (uint64)(3.2 * fsize);
-					break;
-				case CompressionType::bzip2:
-					predicted_size += (uint64)(4.0 * fsize);
 					break;
 				default:
 					break;

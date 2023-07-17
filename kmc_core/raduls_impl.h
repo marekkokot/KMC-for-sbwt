@@ -4,8 +4,8 @@
   
   Authors: Sebastian Deorowicz, Agnieszka Debudaj-Grabysz, Marek Kokot
   
-  Version: 3.2.1
-  Date   : 2022-01-04
+  Version: 3.2.2
+  Date   : 2023-03-10
 */
 
 #ifndef _RADULS_IMPL_H
@@ -547,7 +547,7 @@ namespace RadulsSort
 	void RadixSortMSD_impl(KMER_T* kmers, KMER_T* tmp, uint64 n_recs, uint32 byte, uint32 n_threads, CMemoryPool* pmm_radix_buf, bool is_first_level,
 		uint64 is_big_threshold, uint64 n_total_recs)
 	{
-		uint64_t current_small_sort_threshold = small_sort_thresholds[KMER_T::KMER_SIZE];
+		uint64_t current_small_sort_threshold = get_small_sort_threshold(KMER_T::KMER_SIZE);
 
 		if (n_recs <= current_small_sort_threshold)
 		{
@@ -761,6 +761,8 @@ namespace RadulsSort
 #define RADULS_RADIX_SORT_FUNNAME RadixSortMSD_SSE41
 #elif defined(__SSE2__)
 #define RADULS_RADIX_SORT_FUNNAME RadixSortMSD_SSE2
+#elif defined(__aarch64__)
+#define RADULS_RADIX_SORT_FUNNAME RadixSortMSD_NEON
 #endif
 
 

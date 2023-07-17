@@ -4,8 +4,8 @@
   
   Authors: Sebastian Deorowicz, Agnieszka Debudaj-Grabysz, Marek Kokot
   
-  Version: 3.2.1
-  Date   : 2022-01-04
+  Version: 3.2.2
+  Date   : 2023-03-10
 */
 
 #ifndef _FASTQ_READER_H
@@ -15,8 +15,7 @@
 #include "params.h"
 #include <stdio.h>
 
-#include "libs/zlib.h"
-#include "libs/bzlib.h"
+#include "../3rd_party/cloudflare/zlib.h"
 
 using namespace std;
 
@@ -26,7 +25,6 @@ using namespace std;
 class CFastqReaderDataSrc
 {
 	z_stream stream;	
-	bz_stream _bz_stram;
 	uchar* in_buffer;
 	CBinaryPackQueue* binary_pack_queue;
 	CMemoryPool *pmm_binary_file_reader;
@@ -38,6 +36,7 @@ class CFastqReaderDataSrc
 	uint64 in_data_size;
 	uint64 in_data_pos; //for plain
 	void init_stream();
+	bool pop_pack(uchar*& data, uint64& size, FilePart& file_part, CompressionType& mode);
 public:
 	inline void SetQueue(CBinaryPackQueue* _binary_pack_queue, CMemoryPool *_pmm_binary_file_reader);
 	inline bool Finished();
@@ -49,7 +48,7 @@ public:
 			pmm_binary_file_reader->free(in_data);
 		in_data = nullptr;
 		//clean queue
-		while (binary_pack_queue->pop(in_data, in_data_size, file_part, compression_type))
+		while (pop_pack(in_data, in_data_size, file_part, compression_type))
 		{
 			if(in_data_size)
 				pmm_binary_file_reader->free(in_data);
@@ -62,13 +61,9 @@ public:
 		case CompressionType::gzip:
 			inflateEnd(&stream);
 			break;
-		case CompressionType::bzip2:
-			BZ2_bzDecompressEnd(&_bz_stram);
-			break;
 		default:
 			break;
 		}
-
 	}
 };
 

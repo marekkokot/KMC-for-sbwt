@@ -30,21 +30,21 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -52,7 +52,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\3rd_party\cloudflare\zlib.h" />
     <ClInclude Include="..\kmc_api\mmer.h" />
     <ClInclude Include="bam_utils.h" />
     <ClInclude Include="binary_reader.h" />
@@ -191,8 +192,6 @@
     <ClInclude Include="kxmer_set.h" />
     <ClInclude Include="libs\bzlib.h" />
     <ClInclude Include="libs\bzlib_private.h" />
-    <ClInclude Include="libs\zconf.h" />
-    <ClInclude Include="libs\zlib.h" />
     <ClInclude Include="mem_disk_file.h" />
     <ClInclude Include="meta_oper.h" />
     <ClInclude Include="percent_progress.h" />
@@ -241,6 +240,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/arch:AVX2
 -D__AVX2__ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="raduls_neon.cpp" />
     <ClCompile Include="raduls_sse2.cpp">
       <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotSet</EnableEnhancedInstructionSet>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/arch:sse2 -D__SSE2__ %(AdditionalOptions)</AdditionalOptions>
@@ -264,8 +264,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="libs\libbzip2.lib" />
-    <Library Include="libs\zlibstat.lib" />
+    <ProjectReference Include="..\3rd_party\cloudflare\build\zlib.vcxproj">
+      <Project>{ae29051e-e1d8-3f22-9ca9-64edd3e02ba3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

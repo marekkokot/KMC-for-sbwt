@@ -4,8 +4,8 @@
   
   Authors: Marek Kokot
   
-  Version: 3.2.1
-  Date   : 2022-01-04
+  Version: 3.2.2
+  Date   : 2023-03-10
 */
 
 #ifndef _DEFS_H
@@ -32,8 +32,8 @@ using uchar = unsigned char;
 //#define ENABLE_DEBUG
 //#define ENABLE_LOGGER
 
-#define KMC_VER		"3.2.1"
-#define KMC_DATE	"2022-01-04"
+#define KMC_VER		"3.2.2"
+#define KMC_DATE	"2023-03-10"
 
 #define DEFAULT_CIRCULAL_QUEUE_CAPACITY (4)
 
@@ -73,7 +73,10 @@ using uchar = unsigned char;
 #define CUTOFF_MAX 1000000000
 #define COUNTER_MAX 255
 
+#ifndef MAX_K
 #define MAX_K		256
+#endif
+
 #define KMER_WORDS		((MAX_K + 31) / 32)
 
 
