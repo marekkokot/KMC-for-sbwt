@@ -21,10 +21,6 @@ if(NOT ZLIB)
   find_library(ZLIB NAMES z PATHS ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/ REQUIRED)
 endif()
 
-if(NOT BZIP2)
-  find_library(BZIP2 NAMES bz2 PATHS ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/ REQUIRED)
-endif()
-
 set(KMC_MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core)
 set(KMC_CLI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kmc_CLI)
 set(KMC_API_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kmc_api)
