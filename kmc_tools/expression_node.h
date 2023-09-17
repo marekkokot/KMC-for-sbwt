@@ -18,6 +18,8 @@
 #include <memory>
 #include "db_reader_factory.h"
 
+namespace kmc_tools{
+
 //************************************************************************************************************
 // CExpressionNode - Base abstract class representing expression node. In first stage of algorithm from
 // user input there is created binary tree. Node type represents operation. This tree is only for generating
@@ -214,6 +216,8 @@ public:
 	}
 #endif
 };
+
+} // namespace
 
 
 #endif

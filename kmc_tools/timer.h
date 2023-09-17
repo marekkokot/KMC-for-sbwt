@@ -12,6 +12,8 @@
 #define _TIMER_H
 
 #include <chrono>
+namespace kmc_tools{
+
 class CTimer
 {
 	using time_p = decltype(std::chrono::high_resolution_clock::now());
@@ -28,6 +30,6 @@ public:
 	}
 };
 
-
+} // namespace
 
 #endif 

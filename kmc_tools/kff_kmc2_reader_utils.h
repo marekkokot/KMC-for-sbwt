@@ -15,6 +15,8 @@ Date   : 2023-03-10
 #include <mutex>
 #include <thread>
 
+namespace kmc_tools{
+
 //************************************************************************************************************
 // CParentSubthreadSynchronizer - Synchronize subthreads created by CMergerParent
 //************************************************************************************************************
@@ -114,5 +116,7 @@ public:
 		cv.notify_all();
 	}
 };
+
+} // namespace
 
 #endif

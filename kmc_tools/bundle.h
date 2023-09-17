@@ -10,9 +10,12 @@
 
 #ifndef _BUNDLE_H
 #define _BUNDLE_H
+
 #include "config.h"
 #include "defs.h"
 #include "kmer.h"
+
+namespace kmc_tools{
 
 //************************************************************************************************************
 // CBundle and CInput are CORE classes of this application. CInputs are nodes of binary tree which 
@@ -331,6 +334,8 @@ template<unsigned SIZE> inline bool CBundle<SIZE>::Finished()
 	}
 	return false;
 }
+
+} // namespace
 
 #endif
 

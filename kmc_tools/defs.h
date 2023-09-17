@@ -16,6 +16,8 @@
 
 #include <cinttypes>
 
+namespace kmc_tools{
+
 using uint32 = uint32_t;
 using uint64 = uint64_t;
 using int32 = int32_t;
@@ -107,6 +109,8 @@ using uchar = unsigned char;
 	#define _bswap_uint32(val) \
 		val = (val<<24) | ((val<<8) & 0x00ff0000) | ((val >> 8) & 0x0000ff00) | (val >> 24);
 #endif
+
+} // namespace
 
 #endif
 

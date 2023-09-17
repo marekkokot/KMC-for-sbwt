@@ -16,6 +16,7 @@
 #include <vector>
 #include <fstream>
 
+namespace kmc_tools{
 
 class CHistogramWriterBase
 {
@@ -105,5 +106,7 @@ public:
 		CHistogramWriterBase::Finish();
 	}
 };
+
+} // namespace
 
 #endif

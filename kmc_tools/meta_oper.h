@@ -11,6 +11,8 @@ Date   : 2023-03-10
 #ifndef _META_OPER_H
 #define _META_OPER_H
 
+namespace kmc_tools{
+
 //#include <functional>
 
 
@@ -39,7 +41,7 @@ template <typename Lambda>
 inline void IterRev(const Lambda &oper, uint_<0>) {
 	oper(0);
 }
-
+} // namespace
 #endif
 
 // ***** EOF

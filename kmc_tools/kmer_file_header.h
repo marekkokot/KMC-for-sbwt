@@ -15,6 +15,8 @@
 #include <string>
 #include <iostream>
 
+namespace kmc_tools{
+
 //************************************************************************************************************
 // CKmerFileHeader - represents header of k-mer database.
 //************************************************************************************************************
@@ -88,6 +90,8 @@ private:
 			res += (T)getc(file) << (i << 3);
 	}
 };
+
+} // namespace
 
 #endif
 

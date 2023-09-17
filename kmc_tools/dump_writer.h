@@ -16,6 +16,8 @@
 #include "config.h"
 #include <fstream>
 
+namespace kmc_tools{
+
 
 //wrapper to simplify interface
 
@@ -248,5 +250,7 @@ public:
 		CDumpWriterBase<SIZE>::Finish();
 	}
 };
+
+} // namespace
 
 #endif

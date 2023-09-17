@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <cstring>
 
+using namespace kmc_tools;
+
 std::string CKFFInfoReader::ReadVarName()
 {
 	std::string res;

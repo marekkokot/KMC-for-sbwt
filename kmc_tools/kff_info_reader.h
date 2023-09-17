@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 
+namespace kmc_tools{
 
 template<typename T>
 void LoadBigEndian(const uint8_t* buff, T& data)
@@ -85,3 +86,5 @@ public:
 
 	~CKFFInfoReader();
 };
+
+} // namespace

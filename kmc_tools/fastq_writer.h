@@ -16,6 +16,8 @@
 #include "queues.h"
 #include <string>
 
+namespace kmc_tools{
+
 //************************************************************************************************************
 // CFastqWriter - Writer of fastq/fasta file
 //************************************************************************************************************
@@ -39,6 +41,8 @@ public:
 	CWFastqWriter(CFilteringParams& Params, CFilteringQueues& Queues);
 	void operator()();
 };
+
+} // namespace
 
 #endif
 

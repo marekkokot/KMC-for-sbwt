@@ -32,6 +32,8 @@ public:
 #include <sys/resource.h>
 #include <unistd.h>
 
+namespace kmc_tools{
+
 typedef timeval thread_watch_t;
 
 class CThreadWatch
@@ -47,6 +49,6 @@ public:
 };
 
 #endif
-
+} // namespace
 #endif
 // ***** EOF

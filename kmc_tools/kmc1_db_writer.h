@@ -19,6 +19,8 @@ Date   : 2023-03-10
 #include <string>
 #include <vector>
 
+namespace kmc_tools{
+
 //************************************************************************************************************
 // CKMC1SuffixFileWriter - thread for writing suffixes' parts
 //************************************************************************************************************
@@ -454,6 +456,8 @@ template<unsigned SIZE> void CKMC1DbWriter<SIZE>::calc_lut_prefix_len()
 	//TODO: poki co jako lut size biore najwieszy z najlepszych dla baz wejsciowych
 	lut_prefix_len = *std::max_element(best_lut_prefix_len_inputs.begin(), best_lut_prefix_len_inputs.end());
 }
+
+} // namespace
 
 #endif
 

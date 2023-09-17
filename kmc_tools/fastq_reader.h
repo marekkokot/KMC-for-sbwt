@@ -19,6 +19,8 @@
 
 #include "../3rd_party/cloudflare/zlib.h"
 
+namespace kmc_tools{
+
 using namespace std;
 
 
@@ -86,6 +88,8 @@ public:
 
 	void operator()();
 };
+
+} // namespace
 
 #endif
 

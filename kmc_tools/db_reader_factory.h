@@ -7,6 +7,8 @@
 #include "kmc2_db_reader.h"
 #include "kff_db_reader.h"
 
+namespace kmc_tools{
+
 template<unsigned SIZE>
 CInput<SIZE>* db_reader_factory(const CKmerFileHeader& header, const CInputDesc& input_desc, KmerDBOpenMode kmer_db_open_mode)
 {
@@ -25,6 +27,8 @@ CInput<SIZE>* db_reader_factory(const CKmerFileHeader& header, const CInputDesc&
 		}
 	}
 }
+
+} // namespace
 
 #endif // !_DB_READER_FACTORY_H
 

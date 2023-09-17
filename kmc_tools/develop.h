@@ -8,6 +8,8 @@
 #include "defs.h"
 #include "timer.h"
 
+namespace kmc_tools{
+
 #ifdef ENABLE_LOGGER
 
 
@@ -61,6 +63,8 @@ public:
 	}
 };
 #endif
+
+} // namespace
 
 
 #endif

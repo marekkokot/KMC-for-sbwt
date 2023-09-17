@@ -10,6 +10,9 @@
 
 #include "parameters_parser.h"
 #include <iostream>
+
+using namespace kmc_tools;
+
 using namespace std;
 
 

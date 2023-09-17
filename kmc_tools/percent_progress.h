@@ -14,6 +14,8 @@
 #include "defs.h"
 #include <vector>
 #include <string>
+
+namespace kmc_tools{
 //************************************************************************************************************
 // CPercentProgress - class to display progress of reading inputs
 //************************************************************************************************************
@@ -43,6 +45,8 @@ public:
 	void UpdateItem(uint32 id, uint32 offset);
 	void Hide(){ hide_progress = true; }
 };
+
+} // namespace
 
 #endif
 

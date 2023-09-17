@@ -14,6 +14,9 @@
 #include "defs.h"
 #include "parser.h"
 #include <memory>
+
+namespace kmc_tools{
+
 class CParametersParser
 {	
 	std::unique_ptr<CParser> complex_parser;
@@ -55,6 +58,8 @@ CExpressionNode<SIZE>* CParametersParser::GetExpressionRoot()
 {
 	return complex_parser->GetExpressionRoot<SIZE>();
 }
+
+} // namespace
 #endif
 
 

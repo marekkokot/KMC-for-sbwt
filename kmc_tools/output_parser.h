@@ -18,6 +18,8 @@
 #include "expression_node.h"
 
 
+namespace kmc_tools{
+
 /*****************************************************************************************************************************/
 // This parser validate below grammar:
 // expr -> term sum_op
@@ -207,6 +209,7 @@ template<unsigned SIZE> CExpressionNode<SIZE>* COutputParser<SIZE>::expr()
 	return sum_op(left);
 }
 
+} // namespace
 
 
 #endif

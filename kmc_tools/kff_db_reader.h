@@ -13,6 +13,8 @@
 #include <memory>
 #include <algorithm>
 
+namespace kmc_tools{
+
 //TODO KFF: consider minimizers sections
 
 //Forward declaration
@@ -1490,5 +1492,7 @@ public:
 		}
 	}
 };
+
+} // namespace
 
 #endif

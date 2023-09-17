@@ -19,7 +19,7 @@
 #include <list>
 #include <queue>
 
-
+namespace kmc_tools{
 
 class CSufWriteQueue
 {
@@ -404,6 +404,6 @@ struct CFilteringQueues
 	CMemoryPool *pmm_fastq_filter;
 };
 
-
+} // namespace
 #endif
 

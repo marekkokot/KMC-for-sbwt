@@ -11,6 +11,7 @@ Date   : 2023-03-10
 #include "fastq_filter.h"
 #include <numeric>
 
+using namespace kmc_tools;
 using namespace std;
 
 /*****************************************************************************************************************************/

@@ -18,6 +18,8 @@
 #include "db_reader_factory.h"
 #include "../kmc_api/kmc_file.h"
 
+namespace kmc_tools{
+
 class CKffAndKMCRandomAccess : protected CKMCFile
 {
 	uint32_t suffix_bits;
@@ -167,6 +169,8 @@ public:
 		return CKMCFile::SetMaxCount(x);
 	}
 };
+
+} // namespace
 
 #endif //_KFF_RANDOM_ACCESS_H
 

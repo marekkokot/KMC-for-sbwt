@@ -21,6 +21,8 @@ Date   : 2023-03-10
 #include <thread>
 #include <tuple>
 
+namespace kmc_tools{
+
 //I'm going to read a little after buffer, this will be always correctly ignored, but reading itself is illegal
 //using 16 because 8 of Ckmer, and possibly 8 for counter
 #define SUFFIX_BUFF_EXTRA_BYTES 16
@@ -716,7 +718,7 @@ template<unsigned SIZE> bool CKMC1DbReader<SIZE>::fill_bundle()
 	return false;
 }
 
-
+} // namespace
 #endif
 
 // ***** EOF

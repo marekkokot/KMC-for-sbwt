@@ -15,6 +15,7 @@
 #include <cstdio> // NULL
 #include "thread_watch.h"
 
+using namespace kmc_tools;
 
 #ifdef _WIN32
 

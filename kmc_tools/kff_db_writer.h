@@ -16,6 +16,7 @@ Date   : 2023-03-10
 #include "../kmc_core/kff_writer.h"
 #include "defs.h"
 
+namespace kmc_tools{
 
 template<unsigned SIZE> class CKFFDbWriter : public CDbWriter<SIZE>
 {
@@ -147,5 +148,7 @@ public:
 		finish();
 	}
 };
+
+} // namespace
 
 #endif

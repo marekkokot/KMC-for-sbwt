@@ -16,6 +16,8 @@ Date   : 2023-03-10
 
 #include "kff_random_access.h"
 
+namespace kmc_tools{
+
 //************************************************************************************************************
 // CFastqFilter - filter of reads
 //************************************************************************************************************
@@ -99,6 +101,8 @@ public:
 	CWFastqFilter(CFilteringParams& Params, CFilteringQueues& Queues, CKffAndKMCRandomAccess& kmc_api);
 	void operator()();
 };
+
+} // namespace
 
 
 #endif

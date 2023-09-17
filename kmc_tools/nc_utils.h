@@ -12,8 +12,11 @@
 #include "defs.h"
 #include <cstring>
 
+namespace kmc_tools{
+
 #ifndef _NC_UTILS_H
 #define _NC_UTILS_H
+
 class CNumericConversions {
 public:
     static uchar digits[100000*5];
@@ -114,5 +117,7 @@ public:
         }
 	}
 };
+
+} // namespace
 
 #endif

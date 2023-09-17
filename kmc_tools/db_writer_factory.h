@@ -4,6 +4,8 @@
 #include "kmc1_db_writer.h"
 #include "kff_db_writer.h"
 
+namespace kmc_tools{
+
 template<unsigned SIZE>
 CDbWriter<SIZE>* db_writer_factory(COutputDesc& output_desc, CBundle<SIZE>* bundle = nullptr)
 {
@@ -21,5 +23,5 @@ CDbWriter<SIZE>* db_writer_factory(COutputDesc& output_desc, CBundle<SIZE>* bund
 	}
 }
 
-
+} // namespace
 #endif

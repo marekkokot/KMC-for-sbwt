@@ -21,6 +21,7 @@
 #include <map>
 #include <list>
 
+namespace kmc_tools{
 
 //************************************************************************************************************
 // CParser - parser for complex operations
@@ -59,7 +60,7 @@ template<unsigned SIZE> CExpressionNode<SIZE>* CParser::GetExpressionRoot()
 	COutputParser<SIZE> out_parser(tokens, input);
 	return out_parser.Parse();
 }
-
+} // namespace
 #endif
 
 // ***** EOF

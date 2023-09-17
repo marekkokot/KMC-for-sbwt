@@ -10,6 +10,7 @@
 
 #include "nc_utils.h"
 
+using namespace  kmc_tools;
 
 uchar CNumericConversions::digits[100000*5];
 int CNumericConversions::powOf10[30];

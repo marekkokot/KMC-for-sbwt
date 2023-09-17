@@ -29,6 +29,9 @@
 #ifdef ENABLE_LOGGER
 #include "develop.h"
 #endif
+
+using namespace kmc_tools;
+
 using namespace std;
 
 

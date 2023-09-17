@@ -18,6 +18,8 @@
 #include <set>
 #include <iostream>
 
+namespace kmc_tools{
+
 enum class TokenType{ VARIABLE, PLUS_OPER, STRICT_MINUS_OPER, COUNTER_MINUS_OPER, MUL_OPER, PARENTHESIS_OPEN, PARENTHESIS_CLOSE, TERMINATOR, DIFF_MODIFIER, SUM_MODIFIER, MIN_MODIFIER, MAX_MODIFIER, LEFT_MODIFIER, RIGHT_MODIFIER };
 using Token = std::pair<std::string, TokenType>;
 
@@ -35,7 +37,7 @@ private:
 	std::vector<std::pair<std::regex, TokenType>> token_patterns;
 	void leftTrimString(std::string& str, int start_pos);	
 };
-
+} // namespace
 #endif
 
 // ***** EOF

@@ -18,6 +18,8 @@ Date   : 2023-03-10
 #include <string>
 #include <cstring>
 
+namespace kmc_tools{
+
 // *************************************************************************
 // Ckmer class for k > 32 with classic kmer counting
 template<unsigned SIZE> struct CKmer {
@@ -651,6 +653,8 @@ void CKmer<1>::set_prefix(CKmer<1>& rhs, uint32 /*suffix_bytes*/)
 {
 	data += rhs.data;
 }
+
+} // namespace
 #endif
 
 // ***** EOF

@@ -25,6 +25,8 @@ Date   : 2023-03-10
 #include <condition_variable>
 #include "kff_kmc2_reader_utils.h"
 
+namespace kmc_tools{
+
 //Forward declaration
 template<unsigned SIZE> class CKMC2DbReaderSorted;
 
@@ -1988,6 +1990,6 @@ template<unsigned SIZE> bool CKMC2DbReader<SIZE>::NextCounter(uint32& counter)
 }
 
 
-
+} // namespace
 #endif
 

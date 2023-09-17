@@ -16,6 +16,8 @@
 #include "../kmc_api/mmer.h"
 #include <string>
 
+namespace kmc_tools{
+
 template<unsigned SIZE>
 class CKmerCheck
 {
@@ -401,5 +403,7 @@ public:
 		return any;
 	}
 };
+
+} // namespace
 
 #endif

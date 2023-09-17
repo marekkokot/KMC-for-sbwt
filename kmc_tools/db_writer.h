@@ -12,6 +12,8 @@ Date   : 2023-03-10
 #define _DB_WRITER_H
 #include "bundle.h"
 
+namespace kmc_tools{
+
 template<unsigned SIZE>
 class CDbWriter
 {
@@ -23,4 +25,6 @@ public:
 	virtual void MultiOptputFinish() = 0;
 	virtual ~CDbWriter() = default;
 };
+
+} // namespace
 #endif
