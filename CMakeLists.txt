@@ -43,6 +43,18 @@ if(APPLE)
     add_library(RADULS_AVX2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx2.cpp)
     target_compile_options(RADULS_AVX2_OBJS PRIVATE -mavx2 -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
   endif()
+elseif(WIN32)
+  add_library(RADULS_SSE2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse2.cpp)
+  target_compile_options(RADULS_SSE2_OBJS PRIVATE /arch:sse2 -D__SSE2__)
+
+  add_library(RADULS_SSE41_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse41.cpp)
+  target_compile_options(RADULS_SSE41_OBJS PRIVATE /arch:sse2 -D__SSE4_1__)
+
+  add_library(RADULS_AVX_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx.cpp)
+  target_compile_options(RADULS_AVX_OBJS PRIVATE /arch:AVX)
+
+  add_library(RADULS_AVX2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx2.cpp)
+  target_compile_options(RADULS_AVX2_OBJS PRIVATE /arch:AVX2 -D__AVX2__)
 else()
   add_library(RADULS_SSE2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse2.cpp)
   target_compile_options(RADULS_SSE2_OBJS PRIVATE -msse2 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
@@ -90,6 +102,10 @@ add_library(KMC_CORE_OBJS OBJECT
   ${KMC_MAIN_DIR}/kb_collector.cpp
   ${KMC_MAIN_DIR}/kmc_runner.cpp)
 
+if(WIN32)
+  target_compile_definitions(KMC_CORE_OBJS PRIVATE _HAS_STD_BYTE=0)
+  target_compile_options(KMC_CORE_OBJS PRIVATE /bigobj)
+endif()
 # KMC TOOLS OBJECTS
 
 add_library(KMC_TOOLS_OBJS OBJECT
@@ -155,6 +171,10 @@ add_library(kmc_tools STATIC
   $<TARGET_OBJECTS:KMC_TOOLS_OBJS>
   $<TARGET_OBJECTS:KMC_API_OBJS>
   $<TARGET_OBJECTS:KFF_OBJS>)
+
+if(WIN32)
+  target_compile_options(KMC_TOOLS_OBJS PRIVATE /bigobj)
+endif()
 
 if(APPLE)
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
