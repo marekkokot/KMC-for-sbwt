@@ -20,9 +20,12 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
   endif()
 endif()
 
-if(NOT ZLIB)
-  find_library(ZLIB NAMES z PATHS ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/ REQUIRED)
-endif()
+add_subdirectory(${PROJECT_SOURCE_DIR}/3rd_party/cloudflare
+${PROJECT_SOURCE_DIR}/external/cloudflare/build2)
+
+#if(NOT ZLIB)
+#  find_library(ZLIB NAMES z PATHS ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/ REQUIRED)
+#endif()
 
 set(KMC_MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kmc_core)
 set(KMC_CLI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kmc_CLI)
@@ -150,20 +153,23 @@ if(APPLE)
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
     target_compile_options(kmc_core PRIVATE -O3 -static-libgcc -static-libstdc++ -pthread -std=c++14)
     target_link_libraries(kmc_core PRIVATE
-      ${ZLIB}
+      #${ZLIB}
+      zlib
       ${BZIP2})
     target_link_options(kmc_core PRIVATE -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14)
   else()
     target_compile_options(kmc_core PRIVATE -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
     target_link_libraries(kmc_core PRIVATE
-      ${ZLIB}
+      #${ZLIB}
+      zlib
       ${BZIP2})
     target_link_options(kmc_core PRIVATE -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14)
   endif()
 else()
   target_compile_options(kmc_core PRIVATE -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
   target_link_libraries(kmc_core PRIVATE
-    ${ZLIB})
+    #${ZLIB}
+    zlib)
 
   target_link_options(kmc_core PRIVATE -lm -static -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 endif()
@@ -183,19 +189,22 @@ if(APPLE)
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
     target_compile_options(kmc_tools PRIVATE -O3 -static-libgcc -static-libstdc++ -pthread -std=c++14)
     target_link_libraries(kmc_tools PRIVATE
-      ${ZLIB}
+      #${ZLIB}
+      zlib
       ${BZIP2})
     target_link_options(kmc_tools PRIVATE -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14)
   else()
     target_compile_options(kmc_tools PRIVATE -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
     target_link_libraries(kmc_tools PRIVATE
-      ${ZLIB}
+      #${ZLIB}
+      zlib
       ${BZIP2})
     target_link_options(kmc_tools PRIVATE -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14)
   endif()
 else()
   target_compile_options(kmc_tools PRIVATE -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
   target_link_libraries(kmc_tools PRIVATE
-    ${ZLIB})
+    #${ZLIB}
+    zlib)
   target_link_options(kmc_tools PRIVATE -lm -static -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 endif()
