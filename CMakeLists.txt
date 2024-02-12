@@ -23,6 +23,11 @@ endif()
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rd_party/cloudflare
 ${PROJECT_SOURCE_DIR}/external/cloudflare/build2)
 
+if(MAX_K)
+  message(STATUS "Maximum k-mer length is: " ${MAX_K})
+  add_definitions(-DMAX_K=${MAX_K}) # Define for compiler.
+endif()
+
 #if(NOT ZLIB)
 #  find_library(ZLIB NAMES z PATHS ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools/libs/ REQUIRED)
 #endif()
