@@ -67,17 +67,22 @@ elseif(WIN32)
   add_library(RADULS_AVX2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx2.cpp)
   target_compile_options(RADULS_AVX2_OBJS PRIVATE /arch:AVX2 -D__AVX2__)
 else()
-  add_library(RADULS_SSE2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse2.cpp)
-  target_compile_options(RADULS_SSE2_OBJS PRIVATE -msse2 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+    add_library(RADULS_NEON_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_neon.cpp)
+    target_compile_options(RADULS_NEON_OBJS PRIVATE -march=armv8-a -O3 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+  else()
+    add_library(RADULS_SSE2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse2.cpp)
+    target_compile_options(RADULS_SSE2_OBJS PRIVATE -msse2 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 
-  add_library(RADULS_SSE41_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse41.cpp)
-  target_compile_options(RADULS_SSE41_OBJS PRIVATE -msse4.1 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+    add_library(RADULS_SSE41_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse41.cpp)
+    target_compile_options(RADULS_SSE41_OBJS PRIVATE -msse4.1 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 
-  add_library(RADULS_AVX_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx.cpp)
-  target_compile_options(RADULS_AVX_OBJS PRIVATE -mavx -O3 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+    add_library(RADULS_AVX_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx.cpp)
+    target_compile_options(RADULS_AVX_OBJS PRIVATE -mavx -O3 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 
-  add_library(RADULS_AVX2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx2.cpp)
-  target_compile_options(RADULS_AVX2_OBJS PRIVATE -mavx2 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+    add_library(RADULS_AVX2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx2.cpp)
+    target_compile_options(RADULS_AVX2_OBJS PRIVATE -mavx2 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+  endif()
 endif()
 
 # KKMC CLI OBJECTS
@@ -137,7 +142,7 @@ add_library(KMC_TOOLS_OBJS OBJECT
 
 # KMC CORE
 
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
   add_library(kmc_core STATIC
     $<TARGET_OBJECTS:KMC_CORE_OBJS>
     $<TARGET_OBJECTS:KMC_API_OBJS>
