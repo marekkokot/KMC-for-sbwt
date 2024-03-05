@@ -4,6 +4,7 @@
 #include <limits>
 #include <string>
 #include <map>
+#include <cstdint>
 
 namespace kmc_tools{
 
