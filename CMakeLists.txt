@@ -40,19 +40,19 @@ set(KMC_TOOLS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kmc_tools)
 if(APPLE)
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
     add_library(RADULS_NEON_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_neon.cpp)
-    target_compile_options(RADULS_NEON_OBJS PRIVATE -march=armv8-a -O3 -static-libgcc -static-libstdc++ -pthread -std=c++14)
+    target_compile_options(RADULS_NEON_OBJS PRIVATE -march=armv8-a -O3 -fsigned-char -static-libgcc -static-libstdc++ -pthread -std=c++14)
   else()
     add_library(RADULS_SSE2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse2.cpp)
-    target_compile_options(RADULS_SSE2_OBJS PRIVATE -msse2 -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
+    target_compile_options(RADULS_SSE2_OBJS PRIVATE -msse2 -O3 -fsigned-char -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
 
     add_library(RADULS_SSE41_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse41.cpp)
-    target_compile_options(RADULS_SSE41_OBJS PRIVATE -msse4.1 -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
+    target_compile_options(RADULS_SSE41_OBJS PRIVATE -msse4.1 -O3 -fsigned-char -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
 
     add_library(RADULS_AVX_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx.cpp)
-    target_compile_options(RADULS_AVX_OBJS PRIVATE -mavx -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
+    target_compile_options(RADULS_AVX_OBJS PRIVATE -mavx -O3 -fsigned-char -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
 
     add_library(RADULS_AVX2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx2.cpp)
-    target_compile_options(RADULS_AVX2_OBJS PRIVATE -mavx2 -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
+    target_compile_options(RADULS_AVX2_OBJS PRIVATE -mavx2 -O3 -fsigned-char -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
   endif()
 elseif(WIN32)
   add_library(RADULS_SSE2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse2.cpp)
@@ -69,19 +69,19 @@ elseif(WIN32)
 else()
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
     add_library(RADULS_NEON_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_neon.cpp)
-    target_compile_options(RADULS_NEON_OBJS PRIVATE -march=armv8-a -O3 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+    target_compile_options(RADULS_NEON_OBJS PRIVATE -march=armv8-a -O3 -fsigned-char -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
   else()
     add_library(RADULS_SSE2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse2.cpp)
-    target_compile_options(RADULS_SSE2_OBJS PRIVATE -msse2 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+    target_compile_options(RADULS_SSE2_OBJS PRIVATE -msse2 -O3 -fsigned-char -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 
     add_library(RADULS_SSE41_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_sse41.cpp)
-    target_compile_options(RADULS_SSE41_OBJS PRIVATE -msse4.1 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+    target_compile_options(RADULS_SSE41_OBJS PRIVATE -msse4.1 -O3 -fsigned-char -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 
     add_library(RADULS_AVX_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx.cpp)
-    target_compile_options(RADULS_AVX_OBJS PRIVATE -mavx -O3 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+    target_compile_options(RADULS_AVX_OBJS PRIVATE -mavx -O3 -fsigned-char -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
 
     add_library(RADULS_AVX2_OBJS OBJECT ${KMC_MAIN_DIR}/raduls_avx2.cpp)
-    target_compile_options(RADULS_AVX2_OBJS PRIVATE -mavx2 -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+    target_compile_options(RADULS_AVX2_OBJS PRIVATE -mavx2 -O3 -fsigned-char -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
   endif()
 endif()
 
@@ -161,14 +161,14 @@ endif()
 
 if(APPLE)
   if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
-    target_compile_options(kmc_core PRIVATE -O3 -static-libgcc -static-libstdc++ -pthread -std=c++14)
+    target_compile_options(kmc_core PRIVATE -O3 -fsigned-char -static-libgcc -static-libstdc++ -pthread -std=c++14)
     target_link_libraries(kmc_core PRIVATE
       #${ZLIB}
       zlib
       ${BZIP2})
     target_link_options(kmc_core PRIVATE -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14)
   else()
-    target_compile_options(kmc_core PRIVATE -O3 -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
+    target_compile_options(kmc_core PRIVATE -O3 -fsigned-char -m64 -static-libgcc -static-libstdc++ -pthread -std=c++14)
     target_link_libraries(kmc_core PRIVATE
       #${ZLIB}
       zlib
@@ -176,7 +176,7 @@ if(APPLE)
     target_link_options(kmc_core PRIVATE -lm -static-libgcc -static-libstdc++ -O3 -pthread -std=c++14)
   endif()
 else()
-  target_compile_options(kmc_core PRIVATE -O3 -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
+  target_compile_options(kmc_core PRIVATE -O3 -fsigned-char -m64 -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++14)
   target_link_libraries(kmc_core PRIVATE
     #${ZLIB}
     zlib)
