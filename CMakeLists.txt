@@ -121,6 +121,8 @@ add_library(KMC_CORE_OBJS OBJECT
 if(WIN32)
   target_compile_definitions(KMC_CORE_OBJS PRIVATE _HAS_STD_BYTE=0)
   target_compile_options(KMC_CORE_OBJS PRIVATE /bigobj)
+else()
+  target_compile_options(KMC_CORE_OBJS PRIVATE -fsigned-char)
 endif()
 # KMC TOOLS OBJECTS
 
